@@ -1,0 +1,17 @@
+{
+  "name": "mathmltextract",
+  "version": "9.0.0",
+  "description": "Lel",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "mammoth": "^1.6.0",
+    "textract": "^2.5.0"
+  },
+  "keywords": []
+}
