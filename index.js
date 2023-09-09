@@ -83,45 +83,45 @@
 // // main();
 // // Working code 
 
-// const util = require('util');
-// const fs = require('fs');
-// const exec = util.promisify(require('child_process').exec);
-// const readFile = util.promisify(fs.readFile);
-// const writeFile = util.promisify(fs.writeFile);
+const util = require('util');
+const fs = require('fs');
+const exec = util.promisify(require('child_process').exec);
+const readFile = util.promisify(fs.readFile);
+const writeFile = util.promisify(fs.writeFile);
 
-// async function main() {
-//   const command = 'pandoc -s red.docx -o output.html';
-//   try {
-//     const { stdout, stderr } = await exec(command);
-//     console.log(`stdout: ${stdout}`);
-//     console.log(`stderr: ${stderr}`);
-//   } catch (error) {
-//     console.error(`Error executing Pandoc command: ${error}`);
-//     return;
-//   }
+async function main() {
+  const command = 'pandoc -s red.docx -o output.html';
+  try {
+    const { stdout, stderr } = await exec(command);
+    console.log(`stdout: ${stdout}`);
+    console.log(`stderr: ${stderr}`);
+  } catch (error) {
+    console.error(`Error executing Pandoc command: ${error}`);
+    return;
+  }
 
-//   try {
-//     const data = await readFile('output.html', 'utf8');
-//     let regexArray = [
-//       /\$\$([\s\S]*?)\$\$/g, // for $$...$$
-//       /\$([^\$]*)\$/g, // for $...$
-//       /\\\[([\s\S]*?)\\\]/g, // for \[...\]
-//       /\\\(([\s\S]*?)\\\)/g, // for \(...\)
-//     ];
+  try {
+    const data = await readFile('output.html', 'utf8');
+    let regexArray = [
+      /\$\$([\s\S]*?)\$\$/g, // for $$...$$
+      /\$([^\$]*)\$/g, // for $...$
+      /\\\[([\s\S]*?)\\\]/g, // for \[...\]
+      /\\\(([\s\S]*?)\\\)/g, // for \(...\)
+    ];
 
-//     let newData = data;
+    let newData = data;
 
-//     for (const regex of regexArray) {
-//       newData = newData.replace(regex, (match, p1) => `\\(${p1}\\)`);
-//     }
+    for (const regex of regexArray) {
+      newData = newData.replace(regex, (match, p1) => `\\(${p1}\\)`);
+    }
 
-//     const mathJaxScript = '<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>';
-//     const newDataWithMathJax = newData.replace('</head>', `${mathJaxScript}</head>`);
-//     await writeFile('output_modified.html', newDataWithMathJax, 'utf8');
-//   } catch (err) {
-//     console.error(`Error reading or writing file: ${err}`);
-//   }
-// }
+    const mathJaxScript = '<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>';
+    const newDataWithMathJax = newData.replace('</head>', `${mathJaxScript}</head>`);
+    await writeFile('output_modified.html', newDataWithMathJax, 'utf8');
+  } catch (err) {
+    console.error(`Error reading or writing file: ${err}`);
+  }
+}
 
-// main();
+main();
 // // XML / Json
